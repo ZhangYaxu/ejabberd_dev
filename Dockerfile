@@ -31,6 +31,8 @@ RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN wget http://erlang.org/download/otp_src_17.5.tar.gz && tar zxf otp_src_17.5.tar.gz && cd otp_src_17.5 && ./otp_build setup && make install
 
 
+VOLUME /usr/local/src/ejabberd
+WORKDIR /usr/local/src/ejabberd
 
 EXPOSE 22
 
