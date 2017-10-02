@@ -5,7 +5,10 @@
 
 * Compile 
 
+```
     ./autogen.sh
     ./configure
     ./make
     ./rebar compile generate
+```
+
