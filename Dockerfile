@@ -1,7 +1,7 @@
 FROM       ubuntu:trusty
 MAINTAINER Karl Ma
 
-COPY sources.list /etc/apt/
+#COPY sources.list /etc/apt/
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y \
     autoconf \
     automake \
