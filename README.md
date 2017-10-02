@@ -14,6 +14,14 @@
 
 * Compile 
 
+ compile out of container
+
+```
+    docker run -it --rm -v /Users/karl/workspace/ejabberd:/usr/local/src/ejabberd karlma/ejabberd_dev ./rebar get-deps compile generate
+```
+ 
+ or ssh and exec
+
 ```
     ./autogen.sh
     ./configure
