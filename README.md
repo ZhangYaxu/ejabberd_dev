@@ -2,7 +2,7 @@
 * Start
 
 ```
-    docker run -it -d -p22 -w /Users/karl/workspace/ejabberd:/usr/local/src/ejabberd karlma/ejabberd_dev
+    docker run -it -d -p22 -w $(PWD):/usr/local/src/ejabberd karlma/ejabberd_dev
 ```
 
 * Change password
@@ -17,7 +17,7 @@
  compile out of container
 
 ```
-    docker run -it --rm -v /Users/karl/workspace/ejabberd:/usr/local/src/ejabberd karlma/ejabberd_dev ./rebar get-deps compile generate
+    docker run -it --rm -v $(PWD):/usr/local/src/ejabberd karlma/ejabberd_dev ./rebar clean get-deps compile generate
 ```
  
  or ssh and exec
