@@ -2,7 +2,7 @@
 * Start
 
 ```
-    docker run -it -d -p22 -w $(PWD):/usr/local/src/ejabberd karlma/ejabberd_dev
+    docker run -it -d -p22 -v $(PWD):/usr/local/src/ejabberd karlma/ejabberd_dev
 ```
 
 * Change password
