@@ -25,7 +25,7 @@
 ```
     ./autogen.sh
     ./configure
-    ./make
+    make
     ./rebar compile generate
 ```
 
