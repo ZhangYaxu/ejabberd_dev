@@ -27,7 +27,8 @@ RUN wget http://erlang.org/download/otp_src_19.3.tar.gz && tar zxf otp_src_19.3.
 #RUN cd /otp_src_19.3 && ./otp_build setup && make install
 
 RUN adduser ejabberd
-COPY --chown=ejabberd:ejabberd ejabberd /ejabberd
+#COPY --chown=ejabberd:ejabberd ejabberd /ejabberd
+ADD --chown=ejabberd:ejabberd https://github.com/startalkIM/ejabberd.git
 RUN mkdir /startalk && chown -R ejabberd:ejabberd /startalk
 WORKDIR /ejabberd
 USER ejabberd
