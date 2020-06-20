@@ -22,25 +22,21 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
     mlocate \
     && rm -rf /var/lib/apt/lists/*
 
-#RUN mkdir /var/run/sshd
+RUN wget http://erlang.org/download/otp_src_19.3.tar.gz && tar zxf otp_src_19.3.tar.gz && cd otp_src_19.3 && ./otp_build setup && make install
+#COPY otp_src_19.3 /otp_src_19.3
+#RUN cd /otp_src_19.3 && ./otp_build setup && make install
 
-#RUN echo 'root:root' |chpasswd
-
-#RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
-#RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-
-#RUN wget http://erlang.org/download/otp_src_19.3.tar.gz && tar zxf otp_src_19.3.tar.gz && cd otp_src_19.3 && ./otp_build setup && make install
-COPY otp_src_19.3 /otp_src_19.3
-RUN cd /otp_src_19.3 && ./otp_build setup && make install
-
-COPY ejabberd /ejabberd
-#VOLUME /ejabberd
+RUN adduser ejabberd
+COPY --chown=ejabberd:ejabberd ejabberd /ejabberd
+RUN mkdir /startalk && chown -R ejabberd:ejabberd /startalk
 WORKDIR /ejabberd
+USER ejabberd
+RUN cd /ejabberd && ./configure --prefix=/startalk/ejabberd --enable-pgsql --enable-full-xml \
+    && make clean && make install
+COPY --chown=ejabberd:ejabberd ejabberd/ejabberd.yml.qunar /startalk/ejabberd/etc/ejabberd/ejabberd.yml
+COPY --chown=ejabberd:ejabberd ejabberd/ejabberdctl.cfg.qunar /startalk/ejabberd/etc/ejabberd/ejabberdctl.cfg
 
-#COPY ejabberd /ejabberd
-RUN addgroup ejabberd --gid 9000 \
- && adduser --shell /bin/sh --disabled-login --disabled-password --gid 9000 ejabberd --uid 9000 
-#RUN addgroup ejabberd --gid 9000 \
-# && adduser --uid 9000 --shell /bin/sh --gid 9000 --disabled-login ejabberd 
-RUN cd /ejabberd && ./configure --prefix=/startalk/ejabberd --enable-pgsql --enable-full-xml && 
-#CMD    ["/usr/sbin/sshd", "-D"]
+EXPOSE 1883 4369-4399 5202 5222 5269 5280 5443
+
+ENTRYPOINT ["/startalk/ejabberd/sbin/ejabberdctl"]
+CMD ["foreground"] 
